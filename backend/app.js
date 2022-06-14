@@ -1,9 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express();
+const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user');
 
 const mongoose = require('mongoose');
-
 mongoose.connect('mongodb+srv://piiquante:qBXn3B5M5SCONjNe@cluster0.cdgq4dw.mongodb.net/?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
@@ -11,6 +12,8 @@ mongoose.connect('mongodb+srv://piiquante:qBXn3B5M5SCONjNe@cluster0.cdgq4dw.mong
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+const app = express();
 
 app.use((req, res, next) => {
     console.log('Requête reçue !');
@@ -30,5 +33,10 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     console.log('Réponse envoyée avec succès !');
 });
+
+app.use(bodyParser.json());
+app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
+
 
 module.exports = app;
