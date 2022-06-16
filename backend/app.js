@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
-const stuffRoutes = require('./routes/sauce');
+const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const mongoose = require('mongoose');
@@ -15,27 +16,31 @@ mongoose.connect('mongodb+srv://piiquante:qBXn3B5M5SCONjNe@cluster0.cdgq4dw.mong
 
 const app = express();
 
-app.use((req, res, next) => {
-    console.log('Requête reçue !');
-    next();
+app.post('/api/stuff', (req, res, next) => {
+    delete req.body._id;
+    const sauce = new Sauce({
+        ...req.body
+    });
+    thing.save()
+        .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
+        .catch(error => res.status(400).json({ error }));
 });
 
-app.use((req, res, next) => {
-    res.status(201);
-    next();
+app.put('/api/stuff/:id', (req, res, next) => {
+    Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
+        .catch(error => res.status(400).json({ error }));
 });
 
-app.use((req, res, next) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
-    next();
-});
-
-app.use((req, res, next) => {
-    console.log('Réponse envoyée avec succès !');
+app.delete('/api/stuff/:id', (req, res, next) => {
+    Sauce.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'Sauce supprimée !' }))
+        .catch(error => res.status(400).json({ error }));
 });
 
 app.use(bodyParser.json());
-app.use('/api/sauce', stuffRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/sauce', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 
