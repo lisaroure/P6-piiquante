@@ -1,6 +1,6 @@
 // in controllers/stuff.js
 
-const Sauce = require('../models/sauce');
+const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
 exports.getAllSauces = (req, res, next) => {
