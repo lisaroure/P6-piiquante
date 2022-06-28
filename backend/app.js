@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
-const userRoutes = require('./routes/User');
+const userRoutes = require('./routes/user');
 
 const mongoose = require('mongoose');
 const app = express();

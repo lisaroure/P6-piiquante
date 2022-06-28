@@ -3,6 +3,7 @@ const router = express.Router();
 const max = require("../middleware/limit");
 
 const userCtrl = require('../controllers/user');
+const user = require('../models/user');
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', max.limiter, userCtrl.login);
