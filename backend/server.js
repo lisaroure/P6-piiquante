@@ -1,8 +1,6 @@
 const https = require('https');
 const app = require('./app');
 
-https.createServer(function (req, res) { }).listen(8080);
-
 const normalizePort = val => {
     const port = parseInt(val, 10);
 
