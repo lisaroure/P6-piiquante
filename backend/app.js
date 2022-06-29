@@ -1,15 +1,13 @@
 const express = require('express');
-const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const sauceRoutes = require('./routes/sauce');
+const saucesRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const mongoose = require('mongoose');
+
 const app = express();
-
-
 
 mongoose.connect('mongodb+srv://piiquante:qBXn3B5M5SCONjNe@cluster0.cdgq4dw.mongodb.net/piiquante?retryWrites=true&w=majority',
     {
@@ -25,15 +23,13 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
-app.use(helmet());
 
 app.use(express.json());
-
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/sauce', sauceRoutes);
+app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
